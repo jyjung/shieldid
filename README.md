@@ -18,10 +18,9 @@ info, ok, err_msg = ( builder.device_authorize("address of SHIELD ID server")
             .build())
 if not ok:
     print(err_msg)
-    return
-
-print(info.get_company_id())  # company id
-print(info.get_access_token())  # access token
+else: 
+    print(info.get_company_id())  # company id
+    print(info.get_access_token())  # access token
 
 ```
 
