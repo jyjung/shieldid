@@ -5,7 +5,7 @@ setup(
     version="0.1.0",
     author="Jung JinYoung",
     author_email="bungker@gmail.com",
-    description="utilities package for SHIELD ID",
+    description="utilities package for SHIELD ID(Security365 Cloud Idaas)",
     long_description=open("README.md").read(),
     long_description_content_type="text/markdown",
     url="https://github.com/jyjung/shieldid",
