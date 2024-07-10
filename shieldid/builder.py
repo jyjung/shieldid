@@ -1,8 +1,8 @@
 from .device import device_authorization
-from .app import create_iap_edge_controller_app, create_general_app
+from .app import create_iap_edge_controller_app
 from .jwtutil import get_kid_from_jwt, get_name_with_company_subfix
 from .domain import set_dns_record, make_ssl_certificates
-from typing import Tuple, Dict
+from typing import Tuple, Callable, Dict
 import re
 import json
 from icecream import ic
@@ -17,11 +17,10 @@ from icecream import ic
 #     "authorizedGrantTypes": [
 #       "refresh_token",
 #       "password",
-#       "client_credentials",
-#       "authorization_code"
+#       "client_credentials"
 #     ],
 #     "registeredRedirectUri": [
-#       "https://dev-iapapi.softcamp.co.kr/v1/device/callback/CY8h9T...."
+#       "https://iap-apiserver.example.com/v1/device/callback/XXY9T...."
 #     ],
 #     "registeredImplicitUri": []
 #   },
@@ -30,7 +29,7 @@ from icecream import ic
 # }
 
 class EdgeInfoObject:
-    def __init__(self, auth_info: dict , app_info: dict, etc_info: dict):
+    def __init__(self, auth_info: Dict , app_info: Dict, etc_info: Dict):
         self.auth_info = auth_info or {}
         self.app_info = app_info or {}
         self.etc_info = etc_info or {}
@@ -129,6 +128,11 @@ STEP_CREATE_APP = 2
 STEP_SET_DNS_RECORD = 3
 STEP_MAKE_SSL_CERTIFICATES = 4
 
+
+def default_show_url(url: str,user_code: str):
+    print(f"Please visit \n\n{url}/{user_code} \n\nto log in.\n\n")
+    print("Waiting for login.")    
+
 class IapBuilder:
     def __init__(self):
         self.auth_info = {}
@@ -149,11 +153,11 @@ class IapBuilder:
     def set_last_error(self, error: str):
         self.last_error = error
 
-    def device_authorize(self, url: str):
+    def device_authorize(self, url: str, show_url: Callable = default_show_url):
         self.url = url
         if not self.valid:
             return self
-        self.auth_info, ok = device_authorization(url)
+        self.auth_info, ok = device_authorization(url, show_url)
         if not ok:
             self.valid = False
             self.set_last_error("Device authorization failed.")
@@ -187,25 +191,6 @@ class IapBuilder:
         if not ok:
             self.valid = False
             self.set_last_error("Create edge app failed.")
-        else:
-            self.step = STEP_CREATE_APP
-        return self
-
-
-    def create_app(self, payload: str):
-        # Check if the builder is in a valid state        
-        if not self.valid:
-            return self
-        #require device authorization flow to create edge app
-        if self.step < STEP_DEVICE_AUTHORIZATION:
-            self.valid = False
-            self.set_last_error("create shieldid app require device authorization")
-            return self
-        
-        self.app_info, ok = create_general_app(self.url, payload, self.auth_info)
-        if not ok:
-            self.valid = False
-            self.set_last_error("Create app failed.")
         else:
             self.step = STEP_CREATE_APP
         return self

@@ -1,6 +1,6 @@
 # shieldid
-Python client library for the SHIELD ID, supported under python 3.7 and above.
-SHIELD ID is Idaas of Security 365 Cloud (https://www.security365.com)
+A Python client library for SHIELD ID, compatible with Python 3.7 and above.
+SHIELD ID is the IDaaS (Identity as a Service) solution from Security 365 Cloud (https://www.security365.com).
 
 ## installation
 ```bash

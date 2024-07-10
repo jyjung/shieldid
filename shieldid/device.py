@@ -1,16 +1,22 @@
 import time
 import requests
 from uuid import uuid4
-from typing import Tuple, Dict
+from typing import Tuple, Dict, Callable
 from icecream import ic
 import progressbar
 
-def device_authorization(base_url: str) -> Tuple[Dict, bool]:
+def default_show_url(url: str,user_code: str):
+    print(f"Please visit \n\n{url}/{user_code} \n\nto log in.\n\n")
+    print("Waiting for login...")    
+    
+
+def device_authorization(base_url: str, show_url: Callable = default_show_url) -> Tuple[Dict, bool]:
     """
     Perform device authorization for an SHIELD ID(Security365 Idaas) OAuth2 flow.
 
     Args:
         base_url (str): The base URL of the authorization server.
+        show_url (Callable str, str): A function that will be called to show the user the URL to visit for login. 
 
     Returns:
         Dict: The response data from the authorization server.
@@ -59,10 +65,9 @@ def device_authorization(base_url: str) -> Tuple[Dict, bool]:
         # Check if any required response data is missing
         if not all([device_code, user_code, verification_uri, expires_in, interval]):
             return {"error": "Missing required data from response."}, False
+        show_url(verification_uri, user_code)        
         
-        print(f"Please visit \n\n{verification_uri}/{user_code} \n\nto log in.\n\n")
         widgets = [progressbar.Bar('=', '[', ']'), ' ', progressbar.Percentage(), ' ', progressbar.ETA()]
-        print("Waiting for login...")
         pbar = progressbar.ProgressBar(maxval=expires_in, widgets=widgets).start()
 
         start_time = time.time()
