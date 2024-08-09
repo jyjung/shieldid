@@ -186,6 +186,7 @@ class IapBuilder:
         new_base_name = get_name_with_company_subfix(base_name, self.company_id)
         self.base_name = new_base_name
         self.app_name = "iap-edge-" + new_base_name
+        ic(self.app_name, self.url)
         self.app_info, ok = create_iap_edge_controller_app(self.url, self.app_name, info, self.auth_info)
         
         if not ok:

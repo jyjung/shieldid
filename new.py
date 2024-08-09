@@ -19,10 +19,9 @@ def change_base_image(iap_base_url: str, companyid: str, jwt: str, image: str):
         print("change base image success")
 
 iap_url = "https://dev-iapapi.softcamp.co.kr"
-image = "scharbor.security365.com/iap/socam-oauth2-proxy:20240607.10"
+image = "scharbor.security365.com/iap/socam-oauth2-proxy:20240607.9"
 builder = IapBuilder()
 info, ok, err_msg = ( builder.device_authorize(iap_url)
-                     .create_edge_app("abcd","iap edge controller")
             .build())
 
 if not ok:
@@ -32,8 +31,4 @@ else:
     print(info.get_jwt())  # jwt
     print(info.get_company_id())  # company id
     print(info.get_access_token())  # access token
-    # create_edge_app 호출후 부를 수 있는 함수들
-    print(info.get_app_id())       # iapController.env.iapIdgpId
-    print(info.get_app_secret())   # iapController.env.iapIdgpSecret
-    print(info.get_app_extra())    # iapController.env.iapExtra
-    print(info.get_app_name())
+  
