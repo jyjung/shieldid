@@ -3,3 +3,4 @@ build/
 dist/
 shieldid.egg-info/
 __etc/
+___*

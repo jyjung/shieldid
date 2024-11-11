@@ -24,5 +24,17 @@ else:
     print(info.get_access_token())  # access token
 
 ```
+#### The above code produces the following text as a result:
 
+![alt text](image.png)
 
+#### Copy the link and open it in a web browser to see the login screen.
+
+![alt text](image-1.png)
+
+#### The login result is as follows:
+
+![alt text](image-2.png)
+
+### Sequence diagram
+![alt text](flow.png)
