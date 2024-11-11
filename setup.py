@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name="shieldid",
-    version="0.1.3",
+    version="0.1.4",
     author="Jung JinYoung",
     author_email="bungker@gmail.com",
     description="utilities package for SHIELD ID(Security365 Cloud Idaas)",
@@ -13,7 +13,6 @@ setup(
     install_requires=[
         "progressbar2",
         "Requests",
-        "icecream"
     ],
     classifiers=[
         "Programming Language :: Python :: 3",

@@ -10,6 +10,7 @@ pip install shieldid
 ## usage
 
 ### device authorization flow
+
 ```python
 from shieldid import IapBuilder
 

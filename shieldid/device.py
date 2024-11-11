@@ -2,7 +2,6 @@ import time
 import requests
 from uuid import uuid4
 from typing import Tuple, Dict, Callable
-from icecream import ic
 import progressbar
 
 def default_show_url(url: str,user_code: str):
@@ -46,7 +45,6 @@ def device_authorization(base_url: str, show_url: Callable = default_show_url) -
         device_authorization_start_endpoint = base_url +'/v1/device/code'
         token_endpoint = base_url + '/v1/device/token'
         
-        # Step 1: Request device and user codes
         response = requests.post(device_authorization_start_endpoint, json={
             'client_id': client_id,
             'scope': 'profile'
@@ -83,8 +81,6 @@ def device_authorization(base_url: str, show_url: Callable = default_show_url) -
                 pbar.update( progress_time)
                 time.sleep(interval)            
             else:
-                ic(response.status_code)
-                ic(response.text)
                 return {"error":f"Unexpected error: {response.status_code}"}, False
         return {"error":"Authorization timed out."}, False
     except Exception as e:

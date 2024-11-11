@@ -5,28 +5,6 @@ from .domain import set_dns_record, make_ssl_certificates
 from typing import Tuple, Callable, Dict
 import re
 import json
-from icecream import ic
-
-# Response example from SHIELD ID app create
-# {
-# "app_info": {
-#   "msg": {
-#     "clientId": "ebe2.... ",
-#     "clientSecret": "KSkh....",
-#     "clientName": "ia....",
-#     "authorizedGrantTypes": [
-#       "refresh_token",
-#       "password",
-#       "client_credentials"
-#     ],
-#     "registeredRedirectUri": [
-#       "https://iap-apiserver.example.com/v1/device/callback/XXY9T...."
-#     ],
-#     "registeredImplicitUri": []
-#   },
-#   "errorCode": 0
-# }
-# }
 
 class EdgeInfoObject:
     def __init__(self, auth_info: Dict , app_info: Dict, etc_info: Dict):
@@ -186,7 +164,6 @@ class IapBuilder:
         new_base_name = get_name_with_company_subfix(base_name, self.company_id)
         self.base_name = new_base_name
         self.app_name = "iap-edge-" + new_base_name
-        ic(self.app_name, self.url)
         self.app_info, ok = create_iap_edge_controller_app(self.url, self.app_name, info, self.auth_info)
         
         if not ok:
