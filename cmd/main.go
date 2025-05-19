@@ -71,6 +71,9 @@ func main() {
 			log.Printf("JWT payload 추출 실패: %v", err)
 		} else {
 			fmt.Println("JWT Payload:")
+			// user_name
+			// user_email
+			// companyId
 			for key, value := range payloadMap {
 				fmt.Printf("  %s: %v\n", key, value)
 			}
